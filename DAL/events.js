@@ -58,7 +58,31 @@ const addEvent = (event) => {
     return promise;
 };
 
+const deleteEvent = (id) => {
+    const promise = new Promise((resolve, reject) => {
+        MongoClient.connect(url, settings, async function(err, client){
+            if(err){
+                reject(err);
+            } else {
+                console.log(`Successfully connected to DB: ${dbName} for DELETE.`);
+                const db = client.db(dbName);
+                const collection = db.collection(collName);
+                await collection.deleteOne({_id: ObjectID(id)}, function(err, result){
+                    if(err){
+                        reject(err);
+                    } else {
+                        resolve({deleted_id: id});
+                        client.close();
+                    }
+                })
+            }
+        })
+    })
+    return promise;
+};
+
 module.exports = {
     getEvents,
-    addEvent
+    addEvent,
+    deleteEvent
 }
