@@ -35,6 +35,30 @@ const getEvents = () => {
     return promise;
 }
 
+const addEvent = (event) => {
+    const promise = new Promise((resolve, reject) => {
+        MongoClient.connect(url, settings, async function(err, client){
+            if(err){
+                reject(err);
+            } else {
+                console.log(`Successfully connected to DB: ${dbName} for POST.`);
+                const db = client.db(dbName);
+                const collection = db.collection(collName);
+                collection.insertOne(event, (err, result) => {
+                    if(err){
+                        console.log(err);
+                    } else {
+                        resolve(result.ops[0]);
+                        client.close();
+                    }
+                })
+            };
+        })
+    })
+    return promise;
+};
+
 module.exports = {
-    getEvents
+    getEvents,
+    addEvent
 }
