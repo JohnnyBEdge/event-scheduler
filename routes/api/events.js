@@ -40,12 +40,13 @@ router.delete('/:id', async function(req, res){
   };
 });
 
-// PUT
-router.put('/:id', async function(req, res){
+// PATCH
+router.patch('/:id', async function(req, res){
   try{
     const data = await editEvent(req.params.id, req.body);
     res.send(data);
   } catch(err){
+    console.log(err);
     res.status(500).send("Internal server error; check logs");
   }
 })

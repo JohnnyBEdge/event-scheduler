@@ -87,14 +87,16 @@ const editEvent = (id, event) => {
             if(err){
                 reject(err);
             } else {
-                console.log(`Successfully connected to DB: ${dbName} for PUT.`);
+                console.log(`Successfully connected to DB: ${dbName} for PATCH.`);
                 const db = client.db(dbName);
                 const collection = db.collection(collName);
                 await collection.update(
                     {_id: ObjectID(id)},
                     {$set:{
-                        name: event.name,
-                        date: event.date
+                        eventName: event.eventName,
+                        eventDate: event.eventDate,
+                        eventType: event.eventType,
+                        eventDetails: event.eventDetails,
                     }},
                     {upsert: true},
                     (err, result) => {
