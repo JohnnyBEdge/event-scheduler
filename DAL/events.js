@@ -2,7 +2,7 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID;
 
 // Connection URL
-const url = process.env.DB_URL;
+const url = process.env.REACT_APP_API_URL;
 
 // Database name
 const dbName = "event_scheduler";
