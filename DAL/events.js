@@ -71,7 +71,8 @@ const deleteEvent = (id) => {
                     if(err){
                         reject(err);
                     } else {
-                        resolve({deleted_id: id});
+                        // resolve({deleted_id: id});
+                        resolve(result);
                         client.close();
                     };
                 })
@@ -81,42 +82,65 @@ const deleteEvent = (id) => {
     return promise;
 };
 
-const editEvent = (id, event) => {
+//UPDATE w/ PUT
+const updateEventPUT = (id, event) => {
     const promise = new Promise((resolve, reject) => {
-        MongoClient.connect(url, settings, async function(err, client){
-            if(err){
+        MongoClient.connect(url, settings, function (err, client) {
+            if (err) {
                 reject(err);
             } else {
-                console.log(`Successfully connected to DB: ${dbName} for PATCH.`);
+                console.log('Connected to DB Server for PUT');
                 const db = client.db(dbName);
                 const collection = db.collection(collName);
-                await collection.update(
-                    {_id: ObjectID(id)},
-                    {$set:{
-                        eventName: event.eventName,
-                        eventDate: event.eventDate,
-                        eventType: event.eventType,
-                        eventDetails: event.eventDetails,
-                    }},
-                    {upsert: true},
+                collection.replaceOne({_id: ObjectID(id)}, 
+                    event,
+                    { upsert: true },
                     (err, result) => {
                         if(err){
-                            console.log(err);
-                        } else {
-                            resolve({updated_id: id});
-                        };
+                            reject(err);
+                        } else{
+                            resolve(result);
+                            client.close();
+                        }
                     }
-                )
-            };
+                );
+            }
         })
-
     })
     return promise;
-}
+};  
+
+// UPDATE W/ PATCH
+const updateEventPATCH = (id, event) => {
+    const promise = new Promise((resolve, reject) => {
+        MongoClient.connect(url, settings, function (err, client) {
+            if (err) {
+                reject(err);
+            } else {
+                console.log('Connected to DB Server for PATCH');
+                const db = client.db(dbName);
+                const collection = db.collection(collName);
+                collection.updateOne({_id: ObjectID(id)}, 
+                    {$set: {...event}},
+                    (err, result) => {
+                        if(err){
+                            reject(err);
+                        } else{
+                            resolve(result);
+                            client.close();
+                        }
+                    }
+                );
+            }
+        })
+    })
+    return promise;
+};  
 
 module.exports = {
     getEvents,
     addEvent,
     deleteEvent,
-    editEvent
+    updateEventPUT,
+    updateEventPATCH
 }

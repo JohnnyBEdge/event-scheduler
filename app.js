@@ -22,8 +22,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
+//26-27 came with boiler plate
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
 app.use('/api/events', eventsAPIRouter);
 
 // catch 404 and forward to error handler

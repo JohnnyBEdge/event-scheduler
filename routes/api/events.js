@@ -4,7 +4,8 @@ const {
   getEvents,
   addEvent,
   deleteEvent,
-  editEvent
+  updateEventPUT,
+  updateEventPATCH
 } = require('../../DAL/events');
 
 /* GET home page. */
@@ -33,6 +34,7 @@ router.post('/', async function(req, res){
 router.delete('/:id', async function(req, res){
   try{
     const data = await deleteEvent(req.params.id);
+    console.log('dbData ', data)
     res.send(data);
   } catch(err){
     console.log(err);
@@ -40,14 +42,26 @@ router.delete('/:id', async function(req, res){
   };
 });
 
-// PATCH
-router.patch('/:id', async function(req, res){
+//PUT
+router.put('/:id', async function(req, res){
   try{
-    const data = await editEvent(req.params.id, req.body);
+    const data = await updateEventPUT(req.params.id, req.body);
     res.send(data);
-  } catch(err){
+  }catch(err){
     console.log(err);
     res.status(500).send("Internal server error; check logs");
-  }
-})
+  };
+});
+
+//PATCH
+router.patch('/:id', async function(req, res){
+  try{
+    const data = await updateEventPATCH(req.params.id, req.body);
+    res.send(data);
+  }catch(err){
+    console.log(err);
+    res.status(500).send("Internal server error; check logs");
+  };
+});
+
 module.exports = router;
