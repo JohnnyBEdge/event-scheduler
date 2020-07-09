@@ -1,6 +1,9 @@
+//creates HTTP errors for Express
 const createError = require('http-errors');
 const express = require('express');
+// provides utilities for working with file and directory paths.
 const path = require('path');
+//Parse Cookie header and populate req.cookies with an object keyed by the cookie names.
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
