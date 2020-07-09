@@ -71,7 +71,6 @@ const deleteEvent = (id) => {
                     if(err){
                         reject(err);
                     } else {
-                        // resolve({deleted_id: id});
                         resolve(result);
                         client.close();
                     };

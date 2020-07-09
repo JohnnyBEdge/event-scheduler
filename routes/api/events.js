@@ -57,6 +57,7 @@ router.put('/:id', async function(req, res){
 router.patch('/:id', async function(req, res){
   try{
     const data = await updateEventPATCH(req.params.id, req.body);
+    console.log('dbData ', data)
     res.send(data);
   }catch(err){
     console.log(err);
