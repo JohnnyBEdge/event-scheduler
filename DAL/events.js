@@ -33,7 +33,7 @@ const getEvents = () => {
         })
     })
     return promise;
-}
+};
 
 const addEvent = (event) => {
     const promise = new Promise((resolve, reject) => {
@@ -100,10 +100,10 @@ const updateEventPUT = (id, event) => {
                         } else{
                             resolve(result);
                             client.close();
-                        }
+                        };
                     }
                 );
-            }
+            };
         })
     })
     return promise;

@@ -10,8 +10,10 @@ const cors = require('cors');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+//brings in events api routing
 const eventsAPIRouter = require('./routes/api/events')
 
+//calling the express function
 const app = express();
 
 // view engine setup
@@ -23,12 +25,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors());
+// app.use(cors());
 
 //26-27 came with boiler plate
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-
+//calls 2 params: string to set route for domain to hit for api, file and fx to run
 app.use('/api/events', eventsAPIRouter);
 
 // catch 404 and forward to error handler
